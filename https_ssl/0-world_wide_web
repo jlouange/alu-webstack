@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# a Bash script that will display information about subdomains.
+dig_it() {
+  if [ $# -eq 1 ]; then
+    for names in www lb-01 web-01 web-02; do
+      dig +noall +answer "$names.$1" | awk -v name="$names" '{print "The subdomain", name, "is a", $4, "record and points to", $5}'
+    done
+  fi
+
+  if [ $# -eq 2 ]; then
+    dig +noall +answer "$2.$1" | awk -v name="$2" '{print "The subdomain", name, "is a", $4, "record and points to", $5}'
+  fi
+
+}
+
+dig_it "$@"
